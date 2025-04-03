@@ -10,7 +10,16 @@ export const Users = () => {
       _id: 1,
     },
   ]);
-  const sendMoney = () => {};
+  const sendMoney = () => {
+    setUsers((prev) => [
+      ...prev, // Keep the existing users
+      {
+        firstName: "pen",
+        lastName: "newUser", // You can set this dynamically based on your need
+        _id: prev.length + 1, // Generate a new unique ID for the new user
+      },
+    ]);
+  };
 
   return (
     <div className="w-[80%] m-auto">
