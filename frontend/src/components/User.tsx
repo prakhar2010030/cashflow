@@ -10,6 +10,12 @@ export const Users = () => {
       _id: 1,
     },
   ]);
+
+  const getUsers = ()=>{
+    
+  }
+
+
   const sendMoney = () => {
     // setUsers((prev) => [
     //   ...prev, // Keep the existing users
@@ -33,7 +39,7 @@ export const Users = () => {
       </div>
       <div>
         {users.map((user) => (
-          <User user={user} onClick={sendMoney} />
+          <User user={user} key={user._id} onClick={sendMoney} />
         ))}
       </div>
     </div>

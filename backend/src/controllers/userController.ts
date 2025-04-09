@@ -10,13 +10,14 @@ import Account from "../models/AccountModel";
 export const signUpController = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     //input validation
-    const { success } = signupValidator.safeParse(req.body);
+    const response = signupValidator.safeParse(req.body);
 
     // console.log("response:", response.success);
 
-    if (!success) {
+    if (!response.success) {
       res.status(411).json({
         message: "Incorrect inputs",
+        error: response.error,
       });
       return;
     }
@@ -44,7 +45,7 @@ export const signUpController = catchAsyncError(
       firstName: firstname,
       lastName: lastname,
     });
-    
+
     //giving user ranodm amount of money between 1 and 10000
     await Account.create({
       userId: user._id,
@@ -167,7 +168,7 @@ export const getUserController = catchAsyncError(
       .select("-password")
       .select("-__v");
 
-    console.log(user);
+    // console.log(user);
     res.status(200).json({ success: true, message: user });
   }
 );

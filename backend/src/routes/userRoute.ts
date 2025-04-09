@@ -1,6 +1,6 @@
 import express from "express";
 import {
-    getUserController,
+  getUserController,
   LoginController,
   signUpController,
   updateController,

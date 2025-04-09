@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import jwt, { JwtPayload } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import config from "../configurations/config";
 import { catchAsyncError } from "../utils/catchAsyncError";
 
@@ -10,7 +10,7 @@ export const authMiddleware = catchAsyncError(
 
     //if header doesnot exist
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      res.status(403).json({message:"user not logged in"});
+      res.status(403).json({ message: "user not logged in" });
       return;
     }
     //getting jwt_token
