@@ -5,6 +5,7 @@ import { useNavigates } from "../hooks/useNavigates";
 export interface UserObj {
   firstName: string;
   lastName: string;
+  _id: string;
 }
 
 interface UserProp {
@@ -13,7 +14,7 @@ interface UserProp {
 const UserCard = ({ user }: UserProp) => {
   const { navigateWithState } = useNavigates();
   const sendMoney = () => {
-    navigateWithState("/send", { state: user });
+    navigateWithState("/send", { state: { id: user._id } });
   };
   return (
     <>

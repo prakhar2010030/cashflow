@@ -191,3 +191,44 @@ export const getUserController = catchAsyncError(
     res.status(200).json({ success: true, message: user });
   }
 );
+
+export const getUserNameController = catchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.query;
+    console.log("id", id);
+    const user = await User.findById({ _id: id }).select("firstName -_id");
+
+    if (!user) {
+      res.status(404);
+      res.json({ success: false, message: "user not found" });
+      return;
+    }
+
+    res.status(200).json({ success: true, user });
+  }
+);
+export const getProfileController = catchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const user = await User.findById({ _id: req.userId });
+
+    const balance = await Account.findOne({
+      userId: new mongoose.Types.ObjectId(user?._id),
+    });
+
+    // console.log("user:", user);
+    // if user doesn't exist
+    if (!user) {
+      res.status(411).json({ success: false, message: "invalid email!!" });
+      return;
+    }
+    const userDetail = {
+      firstname: user.firstName,
+      lastname: user.lastName,
+      email: user.email,
+      id: user._id,
+      balance: balance?.balance,
+    };
+
+    res.status(200).json({ success: true, userDetail });
+  }
+);

@@ -1,9 +1,11 @@
 import { useEffect, useRef } from "react";
 import { Html5Qrcode } from "html5-qrcode";
+import { useNavigates } from "../../hooks/useNavigates";
 
 const QRScanner = () => {
   const scannerRef = useRef<HTMLDivElement>(null);
   const html5QrCodeRef = useRef<Html5Qrcode | null>(null);
+  const { navigateWithState } = useNavigates();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -35,10 +37,11 @@ const QRScanner = () => {
                 (decodedText) => {
                   console.log("✅ QR Code scanned:", decodedText);
                   // handle redirect or payment here
-                  alert(decodedText)
+                  navigateWithState("/send", { state: { id: decodedText } });
                 },
                 (errorMessage) => {
                   console.warn("Scan error:", errorMessage);
+                  // navigateWithState("/send", { state: { id: "67ed1cde9a3148641c4bacdc" } });
                 }
               )
               .catch((err) => {

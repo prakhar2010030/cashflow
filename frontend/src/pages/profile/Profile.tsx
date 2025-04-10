@@ -1,9 +1,25 @@
 import { QRCodeCanvas } from "qrcode.react";
 import Appbar from "../../components/AppBar";
 import { useUserContext } from "../../contexts/UserContext";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
+import { useEffect } from "react";
+import axios from "axios";
 const ProfilePage = () => {
- 
-  const { userState } = useUserContext();
+  const { userState, setUserDetail } = useUserContext();
+  const { getItem } = useLocalStorage();
+
+  const getMyProfile = async () => {
+    const res = await axios.get(`${import.meta.env.VITE_API_URL}/user/me`, {
+      headers: {
+        Authorization: `Bearer ${getItem("token")}`,
+      },
+    });
+    // console.log("receiver ", res);
+    setUserDetail(res.data.userDetail);
+  };
+  useEffect(() => {
+    getMyProfile();
+  }, [getMyProfile]);
   return (
     <>
       <Appbar />
@@ -31,7 +47,7 @@ const ProfilePage = () => {
 
         <div className="flex flex-col items-center">
           <p className="my-4 font-semibold">Your QR Code</p>
-          <QRCodeCanvas value={`https://yourapp.com/pay/${userState.id}`} size={200} />
+          <QRCodeCanvas value={`${userState.id}`} size={200} />
         </div>
       </div>
     </>
