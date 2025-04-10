@@ -4,7 +4,7 @@ import Signin from "./pages/signin/Signin";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Send from "./pages/send/Send";
 import Profile from "./pages/profile/Profile";
-import QRScanner from "./pages/QrScanner.tsx/QrScanner";
+import QRScanner from "./pages/QrScanner/QrScanner";
 
 function App() {
   return (

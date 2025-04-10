@@ -35,6 +35,7 @@ const QRScanner = () => {
                 (decodedText) => {
                   console.log("✅ QR Code scanned:", decodedText);
                   // handle redirect or payment here
+                  alert(decodedText)
                 },
                 (errorMessage) => {
                   console.warn("Scan error:", errorMessage);
