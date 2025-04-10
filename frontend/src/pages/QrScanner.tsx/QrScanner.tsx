@@ -1,44 +1,67 @@
-import { useState, useRef, useEffect } from "react";
-import { QrReader } from "react-qr-reader";
-// import { useNavigate } from "react-router-dom";
+import { useEffect, useRef } from "react";
+import { Html5Qrcode } from "html5-qrcode";
 
 const QRScanner = () => {
-  const [data, setData] = useState("");
-  // const navigate = useNavigate();
-  const hasScanned = useRef(false);
+  const scannerRef = useRef<HTMLDivElement>(null);
+  const html5QrCodeRef = useRef<Html5Qrcode | null>(null);
 
-  const handleScan = (result: any, error: unknown) => {
-    alert(result);
-
-    if (result && !hasScanned.current) {
-      hasScanned.current = true;
-      const scannedText = result?.text;
-      setData(scannedText);
-
-      // const userId = scannedText.replace("payto:", "");
-      // navigate(`/pay/${userId}`);
-    }
-
-    if (error) {
-      // console.info(
-      //   "Scanner error:",
-      //   error instanceof Error ? error.message : error
-      // );
-      console.log(error);
-    }
-  };
   useEffect(() => {
-    alert(data);
-  }, [data]);
+    const interval = setInterval(() => {
+      const container = scannerRef.current;
+
+      // Wait until container is rendered with a width
+      if (container && container.clientWidth > 0) {
+        clearInterval(interval); // ✅ clear once ready
+
+        const scanner = new Html5Qrcode(container.id);
+        html5QrCodeRef.current = scanner;
+
+        Html5Qrcode.getCameras()
+          .then((devices) => {
+            if (devices.length === 0) {
+              console.error("No cameras found.");
+              return;
+            }
+
+            // const cameraId = devices[0].id;
+
+            scanner
+              .start(
+                { facingMode: "environment" }, // ✅ camera config
+                {
+                  fps: 10,
+                  qrbox: { width: 250, height: 500 },
+                },
+                (decodedText) => {
+                  console.log("✅ QR Code scanned:", decodedText);
+                  // handle redirect or payment here
+                },
+                (errorMessage) => {
+                  console.warn("Scan error:", errorMessage);
+                }
+              )
+              .catch((err) => {
+                console.error("Failed to start scanner:", err);
+              });
+          })
+          .catch((err) => console.error("Camera error:", err));
+      }
+    }, 100); // check every 100ms
+
+    // Cleanup on unmount
+    return () => {
+      clearInterval(interval);
+      html5QrCodeRef.current?.stop().catch(() => {});
+    };
+  }, []);
 
   return (
-    <div className="p-4 bg-white rounded-xl shadow-md">
+    <div className="p-4 bg-white rounded shadow">
       <p className="mb-2 font-semibold">Scan a QR Code</p>
-      <QrReader
-        constraints={{ facingMode: "environment" }}
-        onResult={handleScan}
-        scanDelay={300}
-        videoStyle={{ width: "100%" }}
+      <div
+        id="html5qr-code"
+        ref={scannerRef}
+        className="w-full h-[300px] bg-gray-200"
       />
     </div>
   );
