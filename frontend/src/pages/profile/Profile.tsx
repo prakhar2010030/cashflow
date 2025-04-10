@@ -2,12 +2,7 @@ import { QRCodeCanvas } from "qrcode.react";
 import Appbar from "../../components/AppBar";
 import { useUserContext } from "../../contexts/UserContext";
 const ProfilePage = () => {
-  const user = {
-    firstname: "sldfksjdkf",
-    lastname: "dslfkjasdlfkj",
-    email: "email",
-    balance: "100Rs",
-  };
+ 
   const { userState } = useUserContext();
   return (
     <>

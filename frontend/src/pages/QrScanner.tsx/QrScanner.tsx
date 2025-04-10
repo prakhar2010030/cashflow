@@ -1,6 +1,6 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { QrReader } from "react-qr-reader";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 const QRScanner = () => {
   const [data, setData] = useState("");
@@ -15,7 +15,7 @@ const QRScanner = () => {
       const scannedText = result?.text;
       setData(scannedText);
 
-      const userId = scannedText.replace("payto:", "");
+      // const userId = scannedText.replace("payto:", "");
       // navigate(`/pay/${userId}`);
     }
 
@@ -27,6 +27,9 @@ const QRScanner = () => {
       console.log(error);
     }
   };
+  useEffect(() => {
+    alert(data);
+  }, [data]);
 
   return (
     <div className="p-4 bg-white rounded-xl shadow-md">
