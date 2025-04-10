@@ -3,6 +3,8 @@ import Signup from "./pages/signup/Signup";
 import Signin from "./pages/signin/Signin";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Send from "./pages/send/Send";
+import Profile from "./pages/profile/Profile";
+import QRScanner from "./pages/QrScanner.tsx/QrScanner";
 
 function App() {
   return (
@@ -12,6 +14,8 @@ function App() {
         <Route path="/signin" element={<Signin />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/send" element={<Send />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/qrScanner" element={<QRScanner />} />
       </Routes>
     </BrowserRouter>
   );

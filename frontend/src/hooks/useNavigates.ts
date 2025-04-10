@@ -6,6 +6,9 @@ export const useNavigates = () => {
   const navigateTo = (to: string) => {
     navigate(to);
   };
+  const navigateWithState = (to: string, state: any) => {
+    navigate(to, state);
+  };
 
-  return { navigateTo };
+  return { navigateTo, navigateWithState };
 };

@@ -6,6 +6,7 @@ import jwt from "jsonwebtoken";
 import User from "../models/UserModel";
 import config from "../configurations/config";
 import Account from "../models/AccountModel";
+import mongoose from "mongoose";
 
 export const signUpController = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -46,6 +47,8 @@ export const signUpController = catchAsyncError(
       lastName: lastname,
     });
 
+    console.log("user", user);
+
     //giving user ranodm amount of money between 1 and 10000
     await Account.create({
       userId: user._id,
@@ -83,6 +86,11 @@ export const LoginController = catchAsyncError(
     //user with provided email
     const user = await User.findOne({ email });
 
+    const balance = await Account.findOne({
+      userId: new mongoose.Types.ObjectId(user?._id),
+    });
+
+    // console.log("user:", user);
     // if user doesn't exist
     if (!user) {
       res.status(411).json({ success: false, message: "invalid email!!" });
@@ -107,9 +115,20 @@ export const LoginController = catchAsyncError(
       config.JWT_SECRET
     );
 
-    res
-      .status(200)
-      .json({ success: true, token, message: "user logged in successfully" });
+    const userDetail = {
+      firstname: user.firstName,
+      lastname: user.lastName,
+      email: user.email,
+      id: user._id,
+      balance: balance?.balance,
+    };
+
+    res.status(200).json({
+      success: true,
+      token,
+      message: "user logged in successfully",
+      userDetail,
+    });
   }
 );
 

@@ -1,4 +1,3 @@
-// hooks/useToast.ts
 import { useReducer, useCallback } from "react";
 
 export interface ToastTypeInterface {
