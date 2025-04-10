@@ -1,19 +1,19 @@
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { useToast } from "../../hooks/useToast";
 import Toast from "../../components/Toast";
 import Appbar from "../../components/AppBar";
 
 const Send = () => {
   const [amount, setAmount] = useState<number>(0);
-  const [username,setUsername] = useState<string>("");
+  const [username, setUsername] = useState<string>("");
   const { state } = useLocation();
   const { getItem } = useLocalStorage();
   const { success, error, toastState, reset } = useToast();
 
-  const getReceiver = async () => {
+  const getReceiver = useCallback(async () => {
     const res = await axios.get(
       `${import.meta.env.VITE_API_URL}/user/getUserName?id=${state.id}`,
       {
@@ -23,8 +23,8 @@ const Send = () => {
       }
     );
     // console.log("receiver ", res);
-    setUsername(res.data.user.firstName)
-  };
+    setUsername(res.data.user.firstName);
+  }, [state.id]);
 
   // console.log("state =>", state);
 
@@ -42,7 +42,7 @@ const Send = () => {
           },
         }
       );
-      console.log(res);
+      // console.log(res);
       success("amount send");
       setAmount(0);
     } catch (err) {
@@ -68,11 +68,11 @@ const Send = () => {
               <div className="flex items-center space-x-4">
                 <div className="w-12 h-12 rounded-full bg-green-500 flex items-center justify-center">
                   <span className="text-2xl text-white">
-                    {username ? username[0]:"N/A"}
+                    {username ? username[0] : "N/A"}
                   </span>
                 </div>
                 <h3 className="text-2xl font-semibold">
-                  Friend's Name : {username ? username:"N/A"}
+                  Friend's Name : {username ? username : "N/A"}
                 </h3>
               </div>
               <div className="space-y-8 ">

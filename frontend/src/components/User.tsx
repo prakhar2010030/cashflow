@@ -4,6 +4,7 @@ import axios from "axios";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import Button from "./Button";
 import { useNavigates } from "../hooks/useNavigates";
+import { preloadQrScanner } from "../utils/preloadScanner";
 
 type userType = {
   _id: string;
@@ -27,7 +28,7 @@ export const Users = () => {
           },
         }
       );
-      console.log(res);
+      // console.log(res);
       setUsers(res.data.message);
     } catch (error) {
       console.log(error);
@@ -57,7 +58,15 @@ export const Users = () => {
         ))}
       </div>
       <div>
-        <Button label="scan" onClick={() => navigateTo("/qrScanner")} />
+        <Button
+          label="scan"
+          onClick={() => {
+            preloadQrScanner();
+            setTimeout(() => {
+              navigateTo("/qrScanner");
+            }, 100);
+          }}
+        />
       </div>
     </div>
   );

@@ -28,10 +28,10 @@ const Signup = () => {
         `${import.meta.env.VITE_API_URL}/user/signup`,
         formState
       );
-      console.log(res);
+      // console.log(res);
       addItem("token", String(res.data.token));
       resetSignup();
-      navigateTo("/dashboard");
+      navigateTo("/signin");
     } catch (err) {
       error("Sign up failed!");
       console.error(err);

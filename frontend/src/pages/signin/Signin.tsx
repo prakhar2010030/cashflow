@@ -30,7 +30,7 @@ const Signin = () => {
         `${import.meta.env.VITE_API_URL}/user/login`,
         loginStates
       );
-      console.log(res);
+      // console.log(res);
       addItem("token", res.data.token);
       resetLoginEntry();
       setUserDetail(res.data.userDetail);

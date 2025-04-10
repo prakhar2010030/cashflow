@@ -1,20 +1,19 @@
 import { useEffect, useRef } from "react";
-import { Html5Qrcode } from "html5-qrcode";
 import { useNavigates } from "../../hooks/useNavigates";
 
 const QRScanner = () => {
   const scannerRef = useRef<HTMLDivElement>(null);
-  const html5QrCodeRef = useRef<Html5Qrcode | null>(null);
-  const { navigateWithState } = useNavigates();
+  const html5QrCodeRef = useRef<any>(null); // 👈 use `any` since import is dynamic
+  const { navigateWithState, navigateTo } = useNavigates();
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    const interval = setInterval(async () => {
       const container = scannerRef.current;
 
-      // Wait until container is rendered with a width
       if (container && container.clientWidth > 0) {
-        clearInterval(interval); // ✅ clear once ready
+        clearInterval(interval);
 
+        const { Html5Qrcode } = await import("html5-qrcode"); // 👈 dynamic import
         const scanner = new Html5Qrcode(container.id);
         html5QrCodeRef.current = scanner;
 
@@ -25,23 +24,21 @@ const QRScanner = () => {
               return;
             }
 
-            // const cameraId = devices[0].id;
-
             scanner
               .start(
-                { facingMode: "environment" }, // ✅ camera config
+                { facingMode: "environment" },
                 {
                   fps: 10,
                   qrbox: { width: 250, height: 500 },
                 },
                 (decodedText) => {
-                  console.log("✅ QR Code scanned:", decodedText);
-                  // handle redirect or payment here
+                  // console.log("✅ QR Code scanned:", decodedText);
                   navigateWithState("/send", { state: { id: decodedText } });
                 },
                 (errorMessage) => {
                   console.warn("Scan error:", errorMessage);
-                  // navigateWithState("/send", { state: { id: "67ed1cde9a3148641c4bacdc" } });
+                  alert("work only with smart phones, not laptops");
+                  navigateTo("/dashboard");
                 }
               )
               .catch((err) => {
@@ -50,9 +47,8 @@ const QRScanner = () => {
           })
           .catch((err) => console.error("Camera error:", err));
       }
-    }, 100); // check every 100ms
+    }, 100);
 
-    // Cleanup on unmount
     return () => {
       clearInterval(interval);
       html5QrCodeRef.current?.stop().catch(() => {});
@@ -61,7 +57,7 @@ const QRScanner = () => {
 
   return (
     <div className="p-4 bg-white rounded shadow">
-      <p className="mb-2 font-semibold">Scan a QR Code</p>
+      <p className="mb-2 text-center font-semibold">Scan a QR Code</p>
       <div
         id="html5qr-code"
         ref={scannerRef}

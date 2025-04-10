@@ -2,13 +2,13 @@ import { QRCodeCanvas } from "qrcode.react";
 import Appbar from "../../components/AppBar";
 import { useUserContext } from "../../contexts/UserContext";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import axios from "axios";
 const ProfilePage = () => {
   const { userState, setUserDetail } = useUserContext();
   const { getItem } = useLocalStorage();
 
-  const getMyProfile = async () => {
+  const getMyProfile = useCallback(async () => {
     const res = await axios.get(`${import.meta.env.VITE_API_URL}/user/me`, {
       headers: {
         Authorization: `Bearer ${getItem("token")}`,
@@ -16,7 +16,7 @@ const ProfilePage = () => {
     });
     // console.log("receiver ", res);
     setUserDetail(res.data.userDetail);
-  };
+  }, []);
   useEffect(() => {
     getMyProfile();
   }, [getMyProfile]);
