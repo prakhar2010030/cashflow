@@ -6,7 +6,9 @@ export const app = express();
 
 app.use(express.json());
 
-app.use(cors());
+app.use(cors({
+  origin:["https://cashflow-shunnya.netlify.app","http://localhost:5173"]
+}));
 
 app.use(morgan("combined"));
 
