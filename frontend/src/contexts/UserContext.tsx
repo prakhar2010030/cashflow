@@ -1,4 +1,12 @@
-import { createContext, ReactNode, useContext, useReducer } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useReducer,
+} from "react";
+import { useLocalStorage } from "../hooks/useLocalStorage";
+import axios from "axios";
 
 // types
 type UserState = {
@@ -45,6 +53,8 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(nameReducer, initialUserState);
 
+  const { removeItem, getItem } = useLocalStorage();
+
   const setUserDetail = (payload: UserState) => {
     dispatch({ type: "SET_DETAIL", payload });
   };
@@ -52,6 +62,28 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const resetUserDetail = () => {
     dispatch({ type: "RESET_DETAIL", payload: initialUserState });
   };
+
+  useEffect(() => {
+    const token = getItem("token");
+
+    if (token) {
+      axios
+        .get(`${import.meta.env.VITE_API_URL}/user/me`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          const user: UserState = res.data.userDetail;
+          setUserDetail(user);
+        })
+        .catch((err) => {
+          console.log(err);
+          removeItem("token");
+          resetUserDetail();
+        });
+    }
+  }, []);
 
   return (
     <UserContext.Provider

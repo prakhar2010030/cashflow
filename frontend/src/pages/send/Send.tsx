@@ -30,7 +30,7 @@ const Send = () => {
 
   const handleTransfer = async () => {
     try {
-       await axios.post(
+      await axios.post(
         `${import.meta.env.VITE_API_URL}/account/transfer`,
         {
           to: state.id,
@@ -58,20 +58,22 @@ const Send = () => {
   return (
     <>
       <Appbar />
-      <div className="flex text-xl justify-center h-screen bg-gray-100">
+      <div className="flex md:text-xl justify-center h-screen bg-gray-100">
         <div className="h-full flex flex-col justify-center">
-          <div className="border h-min text-card-foreground max-w-md p-4 space-y-8 w-96 bg-white shadow-lg rounded-lg">
+          <div className=" md:max-w-md p-4 space-y-8  bg-white shadow-lg rounded-lg">
             <div className="flex flex-col space-y-1.5 ">
-              <h2 className="text-3xl font-bold text-center">Transfer Money</h2>
+              <h2 className="text-xl md:text-3xl font-bold text-center">
+                Transfer Money
+              </h2>
             </div>
             <div className="">
-              <div className="flex items-center space-x-4">
-                <div className="w-12 h-12 rounded-full bg-green-500 flex items-center justify-center">
-                  <span className="text-2xl text-white">
+              <div className="flex items-center space-x-2 md:space-x-4">
+                <div className="h-6 w-6 md:w-12 md:h-12 rounded-full bg-green-500 flex items-center justify-center">
+                  <span className="md:text-2xl uppercase text-white">
                     {username ? username[0] : "N/A"}
                   </span>
                 </div>
-                <h3 className="text-2xl font-semibold">
+                <h3 className="md:text-2xl capitalize font-semibold">
                   Friend's Name : {username ? username : "N/A"}
                 </h3>
               </div>
@@ -85,7 +87,7 @@ const Send = () => {
                   </label>
                   <input
                     type="number"
-                    className="flex my-2 h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-md"
+                    className="flex my-2 md:h-10 w-full rounded-md border   p-2 md:px-3 md:py-2 text-md"
                     id="amount"
                     placeholder="Enter amount"
                     value={amount === 0 ? "" : amount}
@@ -96,7 +98,7 @@ const Send = () => {
                 </div>
                 <button
                   onClick={handleTransfer}
-                  className="justify-center rounded-md text-md font-medium ring-offset-background transition-colors h-10 px-4 py-2 w-full bg-green-500 text-white cursor-pointer"
+                  className="rounded-md text-md font-medium transition-colors h-10 md:px-4 md:py-2 w-full bg-green-500 text-white cursor-pointer"
                 >
                   Initiate Transfer
                 </button>

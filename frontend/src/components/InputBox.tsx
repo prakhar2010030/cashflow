@@ -18,7 +18,7 @@ const InputBox = ({
   // console.log(name);
   return (
     <div>
-      <div className="text-xl font-medium text-left py-2">{label}</div>
+      <div className="md:text-xl font-medium text-left py-2">{label}</div>
       <input
         name={name}
         value={value}

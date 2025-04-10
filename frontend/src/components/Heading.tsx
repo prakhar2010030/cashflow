@@ -13,7 +13,7 @@ interface HeadingProps {
 }
 
 const Heading = ({ label }: HeadingProps) => {
-  return <div className="text-4xl font-medium">{label}</div>;
+  return <div className="text-2xl md:text-4xl font-medium">{label}</div>;
 };
 
 export default Heading;

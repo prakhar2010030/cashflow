@@ -39,7 +39,7 @@ const Signup = () => {
   };
 
   return (
-    <div className="bg-slate-300 text-xl h-screen flex justify-center">
+    <div className="bg-slate-300 md:text-xl h-screen flex justify-center">
       <div className="flex flex-col justify-center">
         <div className="rounded-lg bg-white text-center p-2 h-max px-4">
           <Heading label="Sign up" />
@@ -73,7 +73,7 @@ const Signup = () => {
             placeholder="1234@34sdfasf...min 6"
             type="password"
           />
-          <div className="my-4">
+          <div className="my-3 md:4">
             <Button label="Sign up" onClick={signUp} />
           </div>
           <BottomSignIn

@@ -1,3 +1,4 @@
 import { FiLogOut } from "react-icons/fi";
-
-export {FiLogOut}
+import { MdOutlineQrCodeScanner } from "react-icons/md";
+import { TbMoneybag } from "react-icons/tb";
+export { FiLogOut, MdOutlineQrCodeScanner ,TbMoneybag};

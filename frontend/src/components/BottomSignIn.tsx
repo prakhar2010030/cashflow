@@ -8,9 +8,9 @@ interface BottomTextProps {
 
 const BottomSignIn = ({ label, buttonText, to }: BottomTextProps) => {
   return (
-    <div className=" text-medium flex justify-center">
+    <div className=" min-w-[200px] text-medium flex justify-center">
       <div>{label}</div>
-      <Link className="pointer underline ml-2 cursor-pointer" to={to}>
+      <Link className="ml-1 underline md:ml-2 cursor-pointer" to={to}>
         {buttonText}
       </Link>
     </div>

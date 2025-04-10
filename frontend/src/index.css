@@ -6,3 +6,12 @@ body {
   box-sizing: border-box;
   font-family: "Winky Sans", sans-serif;
 }
+
+/* index.css or global.css */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none; /* IE & Edge */
+  scrollbar-width: none; /* Firefox */
+}

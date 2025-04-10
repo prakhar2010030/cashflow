@@ -29,7 +29,7 @@ const QRScanner = () => {
                 { facingMode: "environment" },
                 {
                   fps: 10,
-                  qrbox: { width: 250, height: 500 },
+                  qrbox: { width: 250, height: 250 },
                 },
                 (decodedText) => {
                   // console.log("✅ QR Code scanned:", decodedText);
@@ -61,7 +61,7 @@ const QRScanner = () => {
       <div
         id="html5qr-code"
         ref={scannerRef}
-        className="w-full h-[300px] bg-gray-200"
+        className="w-full bg-gray-200"
       />
     </div>
   );

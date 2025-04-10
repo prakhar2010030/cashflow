@@ -10,14 +10,14 @@ import { useToast } from "../../hooks/useToast";
 import Toast from "../../components/Toast";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { useNavigates } from "../../hooks/useNavigates";
-import { useUserContext } from "../../contexts/UserContext";
+// import { useUserContext } from "../../contexts/UserContext";
 
 const Signin = () => {
   const { updateLoginField, resetLoginEntry, loginStates } = useLogin();
   const { toastState, error, reset } = useToast();
   const { addItem } = useLocalStorage();
   const { navigateTo } = useNavigates();
-  const { setUserDetail } = useUserContext();
+  // const { setUserDetail } = useUserContext();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -33,7 +33,7 @@ const Signin = () => {
       // console.log(res);
       addItem("token", res.data.token);
       resetLoginEntry();
-      setUserDetail(res.data.userDetail);
+      // setUserDetail(res.data.userDetail);
       // console.log(userState);
       navigateTo("/dashboard");
     } catch (err) {
@@ -43,9 +43,9 @@ const Signin = () => {
   };
 
   return (
-    <div className="bg-slate-300 text-xl h-screen flex justify-center">
+    <div className="bg-slate-300 md:text-xl h-screen flex justify-center">
       <div className="flex flex-col justify-center">
-        <div className="rounded-lg bg-white  text-center p-2 h-max px-4">
+        <div className="rounded-lg bg-white text-center p-2  ">
           <Heading label={"Sign in"} />
           <SubHeading label={"Enter your credentials to access your account"} />
           <InputBox
@@ -63,7 +63,7 @@ const Signin = () => {
             onChange={handleChange}
             type="password"
           />
-          <div className="pt-4">
+          <div className="my-3 md:my-4">
             <Button label={"Sign in"} onClick={signin} />
           </div>
           <BottomSignIn
