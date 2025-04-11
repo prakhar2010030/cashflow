@@ -10,6 +10,7 @@ import { useToast } from "../../hooks/useToast";
 import Toast from "../../components/Toast";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { useNavigates } from "../../hooks/useNavigates";
+import { useUserContext } from "../../contexts/UserContext";
 // import { useUserContext } from "../../contexts/UserContext";
 
 const Signin = () => {
@@ -17,7 +18,7 @@ const Signin = () => {
   const { toastState, error, reset } = useToast();
   const { addItem } = useLocalStorage();
   const { navigateTo } = useNavigates();
-  // const { setUserDetail } = useUserContext();
+  const {  setLoading } = useUserContext();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -25,19 +26,19 @@ const Signin = () => {
   };
   const signin = async () => {
     // console.log(loginStates);
+    setLoading(true);
     try {
       const res = await axios.post(
         `${import.meta.env.VITE_API_URL}/user/login`,
         loginStates
       );
-      // console.log(res);
       addItem("token", res.data.token);
       resetLoginEntry();
-      // setUserDetail(res.data.userDetail);
-      // console.log(userState);
+      setLoading(false);
       navigateTo("/dashboard");
     } catch (err) {
       console.log(err);
+      setLoading(false);
       error("login failed");
     }
   };

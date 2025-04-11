@@ -1,9 +1,12 @@
 import {
   createContext,
+  Dispatch,
   ReactNode,
+  SetStateAction,
   useContext,
   useEffect,
   useReducer,
+  useState,
 } from "react";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import axios from "axios";
@@ -44,6 +47,8 @@ interface UserContextType {
   userState: UserState;
   setUserDetail: (payload: UserState) => void;
   resetUserDetail: () => void;
+  loading: boolean;
+  setLoading: Dispatch<SetStateAction<boolean>>;
 }
 
 // context creation
@@ -52,6 +57,7 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 // provider
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(nameReducer, initialUserState);
+  const [loading, setLoading] = useState(false);
 
   const { removeItem, getItem } = useLocalStorage();
 
@@ -87,7 +93,13 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <UserContext.Provider
-      value={{ userState: state, setUserDetail, resetUserDetail }}
+      value={{
+        userState: state,
+        loading,
+        setLoading,
+        setUserDetail,
+        resetUserDetail,
+      }}
     >
       {children}
     </UserContext.Provider>

@@ -10,12 +10,14 @@ import Toast from "../../components/Toast";
 import { FormInterface, useSignup } from "../../hooks/useSignup";
 import { useNavigates } from "../../hooks/useNavigates";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
+import { useUserContext } from "../../contexts/UserContext";
 
 const Signup = () => {
   const { formState, updateField, resetSignup } = useSignup();
   const { toastState, error, reset } = useToast();
   const { navigateTo } = useNavigates();
   const { addItem } = useLocalStorage();
+  const { setLoading } = useUserContext();
 
   const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -23,6 +25,7 @@ const Signup = () => {
   }, []);
 
   const signUp = async () => {
+    setLoading(true);
     try {
       const res = await axios.post(
         `${import.meta.env.VITE_API_URL}/user/signup`,
@@ -31,10 +34,12 @@ const Signup = () => {
       // console.log(res);
       addItem("token", String(res.data.token));
       resetSignup();
+      setLoading(false);
       navigateTo("/signin");
     } catch (err) {
       error("Sign up failed!");
       console.error(err);
+      setLoading(false);
     }
   };
 

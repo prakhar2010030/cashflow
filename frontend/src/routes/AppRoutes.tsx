@@ -3,6 +3,7 @@ import Signup from "../pages/signup/Signup";
 import Signin from "../pages/signin/Signin";
 import ProtectedRoute from "../components/ProtectedRoute";
 import { lazy, Suspense } from "react";
+import Loader from "../components/Loader";
 
 const LazyDashboard = lazy(() => import("../pages/dashboard/Dashboard"));
 const LazySend = lazy(() => import("../pages/send/Send"));
@@ -16,7 +17,13 @@ function AppRoutes() {
       <Route
         path="/dashboard"
         element={
-          <Suspense fallback={<div>loading...</div>}>
+          <Suspense
+            fallback={
+              <div className="flex items-center justify-center h-screen">
+                <Loader />
+              </div>
+            }
+          >
             <ProtectedRoute>
               <LazyDashboard />
             </ProtectedRoute>
@@ -26,7 +33,13 @@ function AppRoutes() {
       <Route
         path="/send"
         element={
-          <Suspense fallback={<div>loading...</div>}>
+          <Suspense
+            fallback={
+              <div className="flex items-center justify-center h-screen">
+                <Loader />
+              </div>
+            }
+          >
             <ProtectedRoute>
               <LazySend />
             </ProtectedRoute>
@@ -36,7 +49,13 @@ function AppRoutes() {
       <Route
         path="/profile"
         element={
-          <Suspense fallback={<div>loading...</div>}>
+          <Suspense
+            fallback={
+              <div className="flex items-center justify-center h-screen">
+                <Loader />
+              </div>
+            }
+          >
             <ProtectedRoute>
               <LazyProfile />
             </ProtectedRoute>
@@ -46,7 +65,13 @@ function AppRoutes() {
       <Route
         path="/qrScanner"
         element={
-          <Suspense fallback={<div>loading...</div>}>
+          <Suspense
+            fallback={
+              <div className="flex items-center justify-center h-screen">
+                <Loader />
+              </div>
+            }
+          >
             <ProtectedRoute>
               <LazyQrScanner />
             </ProtectedRoute>

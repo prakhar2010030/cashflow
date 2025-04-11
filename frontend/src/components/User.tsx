@@ -6,6 +6,7 @@ import { useLocalStorage } from "../hooks/useLocalStorage";
 import { useNavigates } from "../hooks/useNavigates";
 import { preloadQrScanner } from "../utils/preloadScanner";
 import { MdOutlineQrCodeScanner } from "react-icons/md";
+import { useUserContext } from "../contexts/UserContext";
 
 type userType = {
   _id: string;
@@ -18,6 +19,7 @@ export const Users = () => {
   const [users, setUsers] = useState([]);
   const { getItem } = useLocalStorage();
   const { navigateTo } = useNavigates();
+  const { userState } = useUserContext();
 
   const getUsers = useCallback(async () => {
     try {
@@ -76,9 +78,11 @@ export const Users = () => {
         ></input>
       </div>
       <div className="overflow-y-scroll p-3 h-[60vh] hide-scrollbar">
-        {users.map((user: userType) => (
-          <UserCard user={user} key={user._id} />
-        ))}
+        {users
+          .filter((user: userType) => user._id !== userState.id)
+          .map((user: userType) => (
+            <UserCard user={user} key={user._id} />
+          ))}
       </div>
       <div></div>
     </div>

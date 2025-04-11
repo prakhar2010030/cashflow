@@ -5,6 +5,8 @@ import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { useToast } from "../../hooks/useToast";
 import Toast from "../../components/Toast";
 import Appbar from "../../components/AppBar";
+import { useUserContext } from "../../contexts/UserContext";
+import Loader from "../../components/Loader";
 
 const Send = () => {
   const [amount, setAmount] = useState<number>(0);
@@ -12,6 +14,7 @@ const Send = () => {
   const { state } = useLocation();
   const { getItem } = useLocalStorage();
   const { success, error, toastState, reset } = useToast();
+  const { loading, setLoading } = useUserContext();
 
   const getReceiver = useCallback(async () => {
     const res = await axios.get(
@@ -29,26 +32,32 @@ const Send = () => {
   // console.log("state =>", state);
 
   const handleTransfer = async () => {
-    try {
-      await axios.post(
-        `${import.meta.env.VITE_API_URL}/account/transfer`,
-        {
-          to: state.id,
-          amount,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${getItem("token")}`,
+    if (amount > 0) {
+      setLoading(true);
+      try {
+        await axios.post(
+          `${import.meta.env.VITE_API_URL}/account/transfer`,
+          {
+            to: state.id,
+            amount,
           },
-        }
-      );
-      // console.log(res);
-      success("amount send");
-      setAmount(0);
-    } catch (err) {
-      console.log(err);
-      error("transaction failed");
+          {
+            headers: {
+              Authorization: `Bearer ${getItem("token")}`,
+            },
+          }
+        );
+        // console.log(res);
+        success("amount send");
+        setAmount(0);
+        setLoading(false);
+      } catch (err) {
+        console.log(err);
+        error("transaction failed");
+        setLoading(false);
+      }
     }
+    else error("enter amount!!!")
   };
 
   useEffect(() => {
@@ -99,8 +108,9 @@ const Send = () => {
                 <button
                   onClick={handleTransfer}
                   className="rounded-md text-md font-medium transition-colors h-10 md:px-4 md:py-2 w-full bg-green-500 text-white cursor-pointer"
+                  disabled={loading}
                 >
-                  Initiate Transfer
+                  {loading ? <Loader /> : "Initiate Transfer"}
                 </button>
               </div>
             </div>
