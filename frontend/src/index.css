@@ -5,7 +5,12 @@ body {
   padding: 0;
   box-sizing: border-box;
   font-family: "Winky Sans", sans-serif;
+  
 }
+html {
+  scroll-behavior: smooth;
+}
+
 
 /* index.css or global.css */
 .hide-scrollbar::-webkit-scrollbar {

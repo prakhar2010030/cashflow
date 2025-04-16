@@ -4,6 +4,7 @@ import Signin from "../pages/signin/Signin";
 import ProtectedRoute from "../components/ProtectedRoute";
 import { lazy, Suspense } from "react";
 import Loader from "../components/Loader";
+import Home from "../pages/home/Home";
 
 const LazyDashboard = lazy(() => import("../pages/dashboard/Dashboard"));
 const LazySend = lazy(() => import("../pages/send/Send"));
@@ -12,7 +13,8 @@ const LazyQrScanner = lazy(() => import("../pages/QrScanner/QrScanner"));
 function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<Signup />} />
+      <Route path="/" element={<Home />} />
+      <Route path="/signup" element={<Signup />} />
       <Route path="/signin" element={<Signin />} />
       <Route
         path="/dashboard"
