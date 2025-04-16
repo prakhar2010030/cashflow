@@ -17,7 +17,7 @@ const Signin = () => {
   const { toastState, error, reset } = useToast();
   const { addItem } = useLocalStorage();
   const { navigateTo } = useNavigates();
-  const { setLoading } = useUserContext();
+  const { setLoading, setUserDetail } = useUserContext();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -32,9 +32,11 @@ const Signin = () => {
         `${import.meta.env.VITE_API_URL}/user/login`,
         loginStates
       );
+      // console.log(res.data);
       addItem("token", res.data.token);
       resetLoginEntry();
       setLoading(false);
+      setUserDetail(res.data.userDetail);
       navigateTo("/dashboard");
     } catch (err) {
       console.log(err);
