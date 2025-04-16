@@ -3,7 +3,7 @@ import { useNavigates } from "../../hooks/useNavigates";
 
 const QRScanner = () => {
   const scannerRef = useRef<HTMLDivElement>(null);
-  const html5QrCodeRef = useRef<any>(null); // 👈 use `any` since import is dynamic
+  const html5QrCodeRef = useRef<any>(null); //`any` since import is dynamic
   const { navigateWithState, navigateTo } = useNavigates();
 
   useEffect(() => {
@@ -13,7 +13,7 @@ const QRScanner = () => {
       if (container && container.clientWidth > 0) {
         clearInterval(interval);
 
-        const { Html5Qrcode } = await import("html5-qrcode"); // 👈 dynamic import
+        const { Html5Qrcode } = await import("html5-qrcode"); //dynamic import
         const scanner = new Html5Qrcode(container.id);
         html5QrCodeRef.current = scanner;
 
@@ -32,7 +32,7 @@ const QRScanner = () => {
                   qrbox: { width: 250, height: 250 },
                 },
                 (decodedText) => {
-                  // console.log("✅ QR Code scanned:", decodedText);
+                  // console.log("QR Code scanned:", decodedText);
                   navigateWithState("/send", { state: { id: decodedText } });
                 },
                 (errorMessage) => {
